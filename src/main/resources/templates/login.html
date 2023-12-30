@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page</title>
+</head>
+<body>
+<h2>Login</h2>
+<form th:action="@{/login}" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required autofocus/><br/>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required/><br/>
+
+    <input type="checkbox" id="user" name="user" value="user"/>
+    <label for="user">User</label>
+
+    <input type="checkbox" id="admin" name="admin" value="admin"/>
+    <label for="admin">Admin</label><br/>
+
+    <button type="submit">Login</button>
+</form>
+</body>
+</html>
