@@ -4,36 +4,40 @@ package ru.kata.spring.boot_security.demo.entity;
 import javax.persistence.*;
 import java.util.List;
 
+
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "name")
-    private String firstName;
+    private String name;
+    @Column(name = "age")
+    private int age;
     @Column(name = "email")
     private String email;
-
     @Column(name = "password")
-    private String lastName;
+    private String password;
+
     @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+
     private List<Role> roles;
 
     public User() {
     }
 
-    public User(Long id, String firstName, String email, String lastName, List<Role> roles) {
+    public User(Long id, String name, int age, String email, String password, List<Role> roles) {
         this.id = id;
-        this.firstName = firstName;
+        this.name = name;
+        this.age = age;
         this.email = email;
-        this.lastName = lastName;
+        this.password = password;
         this.roles = roles;
     }
 
@@ -45,12 +49,20 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getEmail() {
@@ -61,14 +73,13 @@ public class User {
         this.email = email;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPassword(String password) {
+        this.password = password;
     }
-
     public List<Role> getRoles() {
         return roles;
     }
@@ -76,7 +87,5 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-//    public String getStringRoles() {
-//        return getRoles().stream().map(Role::getRoleName).collect(Collectors.joining(";  "));
-//    }
 }
+
