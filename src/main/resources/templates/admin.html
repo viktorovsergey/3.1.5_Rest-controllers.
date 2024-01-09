@@ -7,10 +7,59 @@
 <body>
 <h1>Admin, welcome to admin's  page!</h1>
 
-<p th:text="'Username: ' + ${userName}"></p>
-<p th:text="'Password: ' + ${password}"></p>
+<h2>User List</h2>
+<table>
+    <thead>
 
+    <br>
+    </thead>
+    <tbody>
+    <div th:each="user : ${usersList}">
+        <div>
+            <a th:href="@{/admin/{id}(id=${user.getId()})}"
+               th:text="${user.getId() + '. ' + user.getName() + ' ' + user.getAge() + ' ' + user.getEmail() }"></a>
 
+            <div th:each="role1 : ${user.roles}">
+                <div th:text="${role1.getRoleName()}">Role Name</div>
+            </div>
+        </div>
+    </div>
+    </tbody>
+</table>
+</body>
+<br>
+<br>
+<br>
+<!--<form th:method="POST" th:action="@{/admin/create}" th:object="${user}">-->
+
+<!--    <label for="name">Name:</label>-->
+<!--    <input type="text" id="name" name="name" required>-->
+<!--    <br>-->
+
+<!--    <label for="age">Age:</label>-->
+<!--    <input type="number" id="age" name="age" required>-->
+<!--    <br>-->
+
+<!--    <label for="email">Email:</label>-->
+<!--    <input type="text" id="email" name="email" required>-->
+<!--    <br>-->
+
+<!--    <label for="password">Password:</label>-->
+<!--    <input type="text" id="password" name="password" required>-->
+<!--    <br>-->
+
+<!--    <label>Roles:</label>-->
+<!--    <div th:each="role : ${allRoles}">-->
+<!--        <input type="checkbox" th:id="${'role_' + role.name}" th:name="roles" th:value="${role.name}">-->
+<!--        <label th:for="${'role_' + role.name}" th:text="${role.name}"></label>-->
+<!--    </div>-->
+<!--    <br>-->
+
+<a href="/admin/create">
+    <button type="button">Create</button>
+</a>
+</form>
+<br>
 <form th:action="@{/logout}" method="post">
     <button type="submit">Logout</button>
 </form>
