@@ -8,7 +8,11 @@ public interface UserService {
 
     void add (User user);
     void delete(long id);
+    void update(long id, User updateUser,List<Long> roleID);
+    User findByUsername(String username);
+
     void update(User user, long id);
+
     User getUser(long id);
     List<User> getAllUsers();
 }

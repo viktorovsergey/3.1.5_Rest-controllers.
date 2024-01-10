@@ -31,12 +31,10 @@ public class AdminController {
     @GetMapping("/admin")
     public String showAdmin(Model model) {
         List<User> userList = userServiceImpl.getAllUsers();
-        List<Role> allRoles = roleServiceImpl.getAllRole();
-        model.addAttribute("allRoles", allRoles);
         model.addAttribute("usersList", userList);
-        model.addAttribute("newUser", new User());
         return "admin";
     }
+
     @GetMapping("admin/{id}")
     public String showUserDetails(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userServiceImpl.getUser(id));
@@ -44,31 +42,45 @@ public class AdminController {
     }
     @GetMapping("/admin/delete")
     public String delete(@RequestParam("id") long userId) {
-        userServiceImpl.deleteUser(userId);
+        userServiceImpl.delete(userId);
         return "redirect:/admin";
     }
-    @PostMapping("/admin/create")
-    public String createUser(@ModelAttribute("newUser") User newUser,
-                             @RequestParam(value = "roles", required = false) List<String> roles) {
-        List<Role> role = roles.stream()
-                .map(roleName -> new Role(roleName))
-                .collect(Collectors.toList());
-        newUser.setRoles(role);
-
-        userServiceImpl.add(newUser);
-
-        return "redirect:/admin";
-    }
+//    @PostMapping("/admin/create")
+//    public String createUser(@RequestParam("name") String name,
+//                             @RequestParam("age") int age,
+//                             @RequestParam("email") String email,
+//                             @RequestParam("password") String password,
+//                             @RequestParam(value = "roles", required = false) List<String> roles) {
+//
+//        User user = new User();
+//        user.setName(name);
+//        user.setAge(age);
+//        user.setEmail(email);
+//        user.setPassword(password);
+//        List<Role> userRoles = roles.stream()
+//                .map(roleName -> new Role(roleName))
+//                .collect(Collectors.toList());
+//        user.setRoles(userRoles);
+//        userServiceImpl.add(user);
+//
+//        return "redirect:/admin";
+//    }
     @PostMapping("/admin/update")
-    public String updateUser (@ModelAttribute("user") User user,
-                 @RequestParam(value = "roles", required = false) List<Role> roles ) {
-        User existingUser = userServiceImpl.getUser(user.getId());
-        existingUser.setName(user.getName());
-        existingUser.setAge(user.getAge());
-        existingUser.setEmail(user.getEmail());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setRoles(roles);
-        userServiceImpl.editUser(existingUser);
+    public String updateUser(@ModelAttribute("user") User user
+    //                         @RequestParam(value = "roles", required = false) List<Role> roles
+    ) {
+
+//        // Загружаем существующего пользователя из базы данных
+//        User existingUser = userServiceImpl.getUser(user.getId());
+//
+//        // Обновляем данные пользователя
+//        existingUser.setName(user.getName());
+//        existingUser.setAge(user.getAge());
+//        existingUser.setEmail(user.getEmail());
+//        existingUser.setPassword(user.getPassword());
+////        existingUser.setRoles(roles);
+//        userServiceImpl.update(user,int id);
+
      return "redirect:/admin";
   }
     }
