@@ -4,22 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.entity.Role;
 import ru.kata.spring.boot_security.demo.entity.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
-import ru.kata.spring.boot_security.demo.service.UserUserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class AdminController {
-    private UserUserServiceImpl userServiceImpl;
+    private UserServiceImpl userServiceImpl;
     private final RoleServiceImpl roleServiceImpl;
 
 
     @Autowired
-    public void setUserService(UserUserServiceImpl userServiceImpl) {
+    public void setUserService(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
 

@@ -6,16 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.service.UserUserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
 
 import java.security.Principal;
 
 @Controller
 public class UserController {
-    private UserUserServiceImpl userServiceImpl;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
-    public void setUserService(UserUserServiceImpl userServiceImpl) {
+    public void setUserService(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
 
