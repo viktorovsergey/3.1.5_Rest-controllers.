@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+
+
+<body>
+<form  th:action="@{/logout}" th:method="POST">
+    <input type="submit" class="button center" value="LOGOUT"/>
+</form>
+<h1 style="text-align: center;">Users list</h1>
+<table th:border="3">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Role</th>
+        <th>Action</th>
+    </tr>
+    <tr th:each="user1 : ${user}">
+        <td th:text="${user1.getId()}">Id</td>
+        <td th:text="${user1.getName()}">Name</td>
+        <td th:text="${user1.getAge()}">Age</td>
+        <td th:text="${user1.getEmail()}">Email</td>
+        <td th:text="${user1.getPassword()}">Password</td>
+        <td>
+    <span th:each="role1 : ${user1.roles}">
+      <span th:text="${role1.getRoleName()}"></span>
+    </span>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{/admin/edit?id={id}(id=${user1.id})}">
+                <input type="submit" value="DELETE"/>
+            </form>
+            <br/>
+            <a th:href="@{/admin/edit?id={id}(id=${user1.id})}" class="btn btn-warning">EDIT</a>
+        </td>
+    </tr>
+</table>
+<br>
+<a href="/admin/new" class="button center">Add a User</a>
+<br/>
+<br/>
+<form  th:action="@{/user}" th:method="GET">
+    <input type="submit" class="button center" value="INFO ADMIN"/>
+</form>
+</body>
+</html>

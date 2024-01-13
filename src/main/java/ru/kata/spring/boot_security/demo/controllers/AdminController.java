@@ -5,80 +5,59 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.service.RoleServiceImpl;
-import ru.kata.spring.boot_security.demo.service.UserServiceImpl;
+import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.UserServiceInt;
 
-import java.util.List;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
-    private UserServiceImpl userServiceImpl;
-    private final RoleServiceImpl roleServiceImpl;
 
-
-    @Autowired
-    public void setUserService(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
-    }
+    private final UserServiceInt userServiceInterface;
+    private final RoleService roleServiceInterface;
 
     @Autowired
-    public AdminController(RoleServiceImpl roleServiceImpl) {
-        this.roleServiceImpl = roleServiceImpl;
+    public AdminController(UserServiceInt userServiceInterface, RoleService roleServiceInterface) {
+        this.userServiceInterface = userServiceInterface;
+        this.roleServiceInterface = roleServiceInterface;
     }
 
-    @GetMapping("/admin")
-    public String showAdmin(Model model) {
-        List<User> userList = userServiceImpl.getAllUsers();
-        model.addAttribute("usersList", userList);
-        return "admin";
+
+    @GetMapping()
+    public String getAllUsers (Model model) {
+        model.addAttribute("user", userServiceInterface.getAllUsers());
+        return "admin/index";
     }
 
-    @GetMapping("admin/{id}")
-    public String showUserDetails(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userServiceImpl.getUser(id));
-        return "edit";
+    @GetMapping("/new")
+    public String newUser (Model model) {
+        model.addAttribute("user", new User());
+        model.addAttribute("role", roleServiceInterface.getAllRole());
+        return "admin/new";
     }
-    @GetMapping("/admin/delete")
-    public String delete(@RequestParam("id") long userId) {
-        userServiceImpl.delete(userId);
+
+    @PostMapping()
+    public String add (@ModelAttribute("user") User user) {
+        userServiceInterface.add(user);
         return "redirect:/admin";
     }
-//    @PostMapping("/admin/create")
-//    public String createUser(@RequestParam("name") String name,
-//                             @RequestParam("age") int age,
-//                             @RequestParam("email") String email,
-//                             @RequestParam("password") String password,
-//                             @RequestParam(value = "roles", required = false) List<String> roles) {
-//
-//        User user = new User();
-//        user.setName(name);
-//        user.setAge(age);
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        List<Role> userRoles = roles.stream()
-//                .map(roleName -> new Role(roleName))
-//                .collect(Collectors.toList());
-//        user.setRoles(userRoles);
-//        userServiceImpl.add(user);
-//
-//        return "redirect:/admin";
-//    }
-    @PostMapping("/admin/update")
-    public String updateUser(@ModelAttribute("user") User user
-    //                         @RequestParam(value = "roles", required = false) List<Role> roles
-    ) {
 
-//        // Загружаем существующего пользователя из базы данных
-//        User existingUser = userServiceImpl.getUser(user.getId());
-//
-//        // Обновляем данные пользователя
-//        existingUser.setName(user.getName());
-//        existingUser.setAge(user.getAge());
-//        existingUser.setEmail(user.getEmail());
-//        existingUser.setPassword(user.getPassword());
-////        existingUser.setRoles(roles);
-//        userServiceImpl.update(user,int id);
-
-     return "redirect:/admin";
-  }
+    @GetMapping("/edit")
+    public String edit (@RequestParam(value = "id") long id, Model model) {
+        model.addAttribute("user", userServiceInterface.getUser(id));
+        model.addAttribute("role", roleServiceInterface.getAllRole());
+        return "admin/edit";
     }
+
+    @PostMapping("/edit")
+    public String update (@ModelAttribute ("user") User user, @RequestParam(value = "id") long id) {
+        userServiceInterface.update(user, id);
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/delete")
+    public String delete (@RequestParam(value = "id") long id) {
+        userServiceInterface.delete(id);
+        return "redirect:/admin";
+    }
+}

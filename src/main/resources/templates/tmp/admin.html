@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Spring Security Example</title>
+</head>
+<body>
+<h1>Admin, welcome to admin's  page!</h1>
+
+<h2>User List</h2>
+<table>
+    <thead>
+
+    <br>
+    </thead>
+    <tbody>
+    <div th:each="user : ${usersList}">
+        <div>
+            <a th:href="@{/admin/{id}(id=${user.getId()})}"
+               th:text="${user.getId() + '. ' + user.getName() + ' ' + user.getAge() + ' ' + user.getEmail() }"></a>
+
+            <div th:each="role1 : ${user.roles}">
+                <div th:text="${role1.getRoleName()}">Role Name</div>
+            </div>
+        </div>
+    </div>
+    </tbody>
+</table>
+</body>
+<br>
+<br>
+<br>
+
+<br>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Users</title>-->
+
+<!--</head>-->
+<!--<body>-->
+<!--<form th:action="@{/logout}" th:method="POST">-->
+<!--    <input type="submit" class="button" value="LOGOUT"/>-->
+<!--</form>-->
+
+<!--<h1 style="text-align: center;">Table User</h1>-->
+
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>Id</th>-->
+<!--        <th>Name</th>-->
+<!--        <th>Age</th>-->
+<!--        <th>Email</th>-->
+<!--        <th>Password</th>-->
+<!--        <th>Role</th>-->
+<!--        <th>Action</th>-->
+<!--    </tr>-->
+
+<!--    <tr th:each="user1 : ${user}">-->
+<!--        <td th:text="${user1.id}">Id</td>-->
+<!--        <td th:text="${user1.name}">Name</td>-->
+<!--        <td th:text="${user1.age}">Age</td>-->
+<!--        <td th:text="${user1.email}">Email</td>-->
+<!--        <td th:text="${user1.password}">Password</td>-->
+<!--        <td>-->
+<!--            <span th:each="role1 : ${user1.roles}" th:text="${role1.role}"></span>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <form th:method="POST" th:action="@{/admin/delete}">-->
+<!--                <input type="hidden" name="id" th:value="${user1.id}" />-->
+<!--                <input type="submit" value="DELETE" class="button"/>-->
+<!--            </form>-->
+<!--            <br/>-->
+<!--            <a th:href="@{/admin/edit(id=${user1.id})}" class="btn btn-warning">EDIT</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+<!--<a href="/admin/new" class="button">Add a User</a>-->
+<!--<br/>-->
+<!--<br/>-->
+<!--<form th:action="@{/admin}" th:method="GET">-->
+<!--    <input type="submit" class="button" value="INFO ADMIN"/>-->
+<!--</form>-->
+<!--</body>-->
+<!--</html>-->
