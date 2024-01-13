@@ -9,3 +9,5 @@ user3 - пароль 200  роль user
 
 пароли задаються исспользуя
 https://bcrypt-generator.com
+
+вот
