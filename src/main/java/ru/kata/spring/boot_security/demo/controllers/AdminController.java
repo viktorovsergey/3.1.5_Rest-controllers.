@@ -10,48 +10,53 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.service.UserServiceInterface;
 
 import java.security.Principal;
+import java.util.List;
 
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
 
     private final UserServiceInterface userServiceInterface;
     private final RoleService roleServiceInterface;
-    private final UserService userService;
+
 
 
     @Autowired
-    public AdminController(UserServiceInterface userServiceInterface, RoleService roleServiceInterface, UserService userService) {
+    public AdminController(UserServiceInterface userServiceInterface, RoleService roleServiceInterface) {
         this.userServiceInterface = userServiceInterface;
         this.roleServiceInterface = roleServiceInterface;
-        this.userService = userService;
-    }
 
+    }
 
     @GetMapping()
-    public String getAllUsers (Model model, Principal principal) {
-        model.addAttribute("allUsers", userServiceInterface.getAllUsers());
-        model.addAttribute("user", userService.findByName(principal.getName()));
-        model.addAttribute("allRoles", roleServiceInterface.getAllRole());
-        return "admin/index";
+    public List<User> showAllUsers() {
+       return userServiceInterface.getAllUsers();
     }
 
-    @PostMapping()
-    public String add (@ModelAttribute("user") User user) {
-        userServiceInterface.add(user);
-        return "redirect:/admin";
-    }
+//    @GetMapping()
+//    public String getAllUsers (Model model, Principal principal) {
+//        model.addAttribute("allUsers", userServiceInterface.getAllUsers());
+//        model.addAttribute("user", userService.findByName(principal.getName()));
+//        model.addAttribute("allRoles", roleServiceInterface.getAllRole());
+//        return "admin/index";
+//    }
 
-    @PostMapping("/edit")
-    public String edit (@ModelAttribute ("user") User user, @RequestParam(value = "id") long id) {
-       userServiceInterface.update(user,id);
-        return "redirect:/admin";
-    }
-
-    @PostMapping("/delete")
-    public String delete (@RequestParam(value = "id") long id) {
-        userServiceInterface.delete(id);
-        return "redirect:/admin";
-    }
+//    @PostMapping()
+//    public String add(@ModelAttribute("user") User user) {
+//        userServiceInterface.add(user);
+//        return "redirect:/admin";
+//    }
+//
+//    @PostMapping("/edit")
+//    public String edit(@ModelAttribute("user") User user, @RequestParam(value = "id") long id) {
+//        userServiceInterface.update(user, id);
+//        return "redirect:/admin";
+//    }
+//
+//    @PostMapping("/delete")
+//    public String delete(@RequestParam(value = "id") long id) {
+//        userServiceInterface.delete(id);
+//        return "redirect:/admin";
+//    }
 }
