@@ -1,15 +1,12 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entity.User;
-import ru.kata.spring.boot_security.demo.service.RoleService;
-import ru.kata.spring.boot_security.demo.service.UserService;
-import ru.kata.spring.boot_security.demo.service.UserServiceInterface;
+import ru.kata.spring.boot_security.demo.exeption_handihg.NoSuchUserException;
+import ru.kata.spring.boot_security.demo.service.*;
 
-import java.security.Principal;
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -17,22 +14,37 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserServiceInterface userServiceInterface;
-    private final RoleService roleServiceInterface;
 
+    private final UserService userService;
+    private final UserServiceInterface userServiceInterface;
 
 
     @Autowired
-    public AdminController(UserServiceInterface userServiceInterface, RoleService roleServiceInterface) {
+    public AdminController(UserService userService, UserServiceInterface userServiceInterface) {
+        this.userService = userService;
         this.userServiceInterface = userServiceInterface;
-        this.roleServiceInterface = roleServiceInterface;
-
     }
 
     @GetMapping()
     public List<User> showAllUsers() {
-       return userServiceInterface.getAllUsers();
+        return userServiceInterface.getAllUsers();
     }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable long id) {
+        User user = userServiceInterface.getUser(id);
+        if (user == null) {
+        throw  new NoSuchUserException("No user with" + id + "in Database");
+        }
+        return user;
+    }
+
+    @PostMapping()
+    public User addNewUser (@RequestBody  @Valid User user) {
+    userServiceInterface.add(user);
+        return user;
+    }
+
 
 //    @GetMapping()
 //    public String getAllUsers (Model model, Principal principal) {
