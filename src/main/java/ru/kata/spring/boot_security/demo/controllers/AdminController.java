@@ -34,17 +34,21 @@ public class AdminController {
     public User getUser(@PathVariable long id) {
         User user = userServiceInterface.getUser(id);
         if (user == null) {
-        throw  new NoSuchUserException("No user with" + id + "in Database");
+            throw new NoSuchUserException("No user with" + id + "in Database");
         }
         return user;
     }
 
-    @PostMapping()
-    public User addNewUser (@RequestBody  @Valid User user) {
-    userServiceInterface.add(user);
+    @PostMapping
+    public User addNewUser(@RequestBody User user ) {
+        userServiceInterface.add(user);
         return user;
     }
-
+//    @PutMapping("/{id}")
+//    public User updateUser(@RequestBody User user){
+//        userServiceInterface.update(user,user.getId());
+//        return user;
+//}
 
 //    @GetMapping()
 //    public String getAllUsers (Model model, Principal principal) {
@@ -54,18 +58,18 @@ public class AdminController {
 //        return "admin/index";
 //    }
 
-//    @PostMapping()
+    //    @PostMapping()
 //    public String add(@ModelAttribute("user") User user) {
 //        userServiceInterface.add(user);
 //        return "redirect:/admin";
 //    }
 //
-//    @PostMapping("/edit")
-//    public String edit(@ModelAttribute("user") User user, @RequestParam(value = "id") long id) {
-//        userServiceInterface.update(user, id);
-//        return "redirect:/admin";
-//    }
-//
+    @PatchMapping("/{id}")
+    public User edit(@RequestBody User user, @PathVariable("id") long id) {
+        userServiceInterface.update(user, id);
+        return user;
+    }
+
 //    @PostMapping("/delete")
 //    public String delete(@RequestParam(value = "id") long id) {
 //        userServiceInterface.delete(id);
