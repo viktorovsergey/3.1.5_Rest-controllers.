@@ -43,10 +43,6 @@ public class AdminController {
         return new ResponseEntity<>(roleService.getAllRole(), HttpStatus.OK);
     }
 
-//    @GetMapping("/roles/{id}")
-//    public ResponseEntity<List<Role>> getRole(@PathVariable("id") Long id) {
-//        return new ResponseEntity<>(userServiceInterface.getUser(id).getRoles(), HttpStatus.OK);
-//    }
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userServiceInterface.getUser(id), HttpStatus.OK);
