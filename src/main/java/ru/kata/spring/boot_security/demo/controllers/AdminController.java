@@ -43,10 +43,10 @@ public class AdminController {
         return new ResponseEntity<>(roleService.getAllRole(), HttpStatus.OK);
     }
 
-    @GetMapping("/roles/{id}")
-    public ResponseEntity<List<Role>> getRole(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(userServiceInterface.getUser(id).getRoles(), HttpStatus.OK);
-    }
+//    @GetMapping("/roles/{id}")
+//    public ResponseEntity<List<Role>> getRole(@PathVariable("id") Long id) {
+//        return new ResponseEntity<>(userServiceInterface.getUser(id).getRoles(), HttpStatus.OK);
+//    }
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(userServiceInterface.getUser(id), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class AdminController {
     }
     @PatchMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable("id") Long userId) {
-        userServiceInterface.update(user,userId);
+        userServiceInterface.update(user);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     @DeleteMapping("/users/{id}")

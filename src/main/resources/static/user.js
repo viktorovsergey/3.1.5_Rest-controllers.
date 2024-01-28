@@ -6,7 +6,7 @@ function getCurrentUser() {
     fetch(URLNavbarUser)
         .then((res) => res.json())
         .then((user) => {
-
+            console.log('Данные о пользователе:', user);
             let rolesStringUser = rolesToStringForUser(user.roles);
             let dataOfUser = '';
 
@@ -29,7 +29,7 @@ getCurrentUser()
 function rolesToStringForUser(roles) {
     let rolesString = '';
     for (let element of roles) {
-        rolesString += (element.name.toString() + ', ');
+        rolesString += (element.name.toString().replace('ROLE_', '') + ', ');
     }
     rolesString = rolesString.substring(0, rolesString.length - 2);
     return rolesString;
