@@ -7,6 +7,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,12 +24,17 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "name")
+    @NotEmpty(message = "Name is not empty")
+    @Size(min = 2, max = 50, message = "Имя от 2 до 50 символов")
     private String name;
     @Column(name = "age")
+    @Min(value = 0, message = "Возраст не может быть меньше 0 лет!")
+    @Max(value = 150, message = "Столько не живут!")
     private int age;
     @Column(name = "email")
     private String email;
     @Column(name = "password")
+    @NotEmpty(message = "Name is not empty")
     private String password;
 
     @ManyToMany
@@ -33,7 +42,7 @@ public class User implements UserDetails {
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonIgnore
+@JsonIgnore
     private List<Role> roles;
 
     public User() {
